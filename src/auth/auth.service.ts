@@ -5,7 +5,7 @@ import {
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
 import { AuthDto } from './dto';
 
@@ -69,13 +69,13 @@ export class AuthService {
     email: string,
   ): Promise<object> {
     const payload = {
-      sub: userId,
+      userId,
       email,
     };
     const secret = this.config.get('JWT_SECRET');
 
     const token = await this.jwt.signAsync(payload, {
-      expiresIn: '30m',
+      expiresIn: '1h',
       secret,
     });
 
